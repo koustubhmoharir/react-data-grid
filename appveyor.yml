@@ -3,16 +3,16 @@ version: 1.0.{build}
 init:
   - git config --global core.autocrlf input
 environment:
-  COVERALLS_REPO_TOKEN: 9RRu36GLfbnk5Ri6Y6FpoZU10CW6dlIfy
+  COVERALLS_REPO_TOKEN: vOdkSMGuHCKxnVCnXWGRA1vvgXYU9nCFf
   COVERALLS_SERVICE_NAME: appveyor
   COVERALLS_GIT_COMMIT: $(APPVEYOR_REPO_COMMIT)
   COVERALLS_GIT_BRANCH : $(APPVEYOR_REPO_BRANCH)
   COVERALLS_SERVICE_JOB_ID  : $(APPVEYOR_BUILD_ID)
   COVERALLS_SERVICE_PULL_REQUEST : $(APPVEYOR_PULL_REQUEST_NUMBER)
   access_token:
-    secure: dHfUgllfTEAqpcoz3iQj8TO0DGh8n90Coqf0+IXT0bIRNSIxGTDu991X+FStY613
+    secure: 46bvaPhkipaVLZ+06LJYEc7F9wMFsCZXK26OJ8b0DK/Jcs0ar7+wwO0XAroOopoB
   npmrc_token:
-    secure: jG6oWTaTCoL72ZhDYY8ipA==
+    secure: ROCatPR0vmsEEjZ0LzLuPQ==
 
 
 # Install scripts. (runs after repo cloning)
