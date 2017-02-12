@@ -14,5 +14,6 @@
     "core"
   ],
   "author": "koustubhmoharir",
-  "license": "MIT"
+  "license": "MIT",
+  "types": "./index.d.ts"
 }
