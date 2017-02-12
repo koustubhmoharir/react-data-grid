@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Grid = require('react-data-grid');
+const Grid = require('react-data-grid-sk');
 const { editors: { CheckboxEditor } } = Grid;
 const TestUtils = require('react-addons-test-utils');
 const StubComponent = require('../../../../test/StubComponent');

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import { RowsContainer } from 'react-data-grid';
+import { RowsContainer } from 'react-data-grid-sk';
 import { Menu } from '../../';
 const { ContextMenu } = Menu;
 

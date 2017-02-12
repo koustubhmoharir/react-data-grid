@@ -1,5 +1,5 @@
 import React from 'react';
-import { shapes } from 'react-data-grid';
+import { shapes } from 'react-data-grid-sk';
 const { ExcelColumn } = shapes;
 const RuleType = {
   Number: 1,

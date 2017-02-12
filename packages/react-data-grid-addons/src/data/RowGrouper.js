@@ -1,4 +1,4 @@
-import { utils } from 'react-data-grid';
+import { utils } from 'react-data-grid-sk';
 import Resolver from './RowGrouperResolver';
 const { isImmutableCollection } = utils;
 

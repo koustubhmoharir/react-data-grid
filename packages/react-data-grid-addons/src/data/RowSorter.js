@@ -1,4 +1,4 @@
-import { utils } from 'react-data-grid';
+import { utils } from 'react-data-grid-sk';
 const { getMixedTypeValueRetriever, isImmutableCollection } = utils;
 
 const comparer = (a, b) => {

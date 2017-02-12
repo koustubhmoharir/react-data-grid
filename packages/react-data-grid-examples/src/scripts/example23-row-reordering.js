@@ -1,10 +1,10 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const {
    Draggable: { Container: DraggableContainer, RowActionsCell, DropTargetRowContainer },
    Data: { Selectors }
-} = require('react-data-grid-addons');
+} = require('react-data-grid-sk-addons');
 
 const RowRenderer = DropTargetRowContainer(ReactDataGrid.Row);
 

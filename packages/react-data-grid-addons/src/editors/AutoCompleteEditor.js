@@ -1,7 +1,7 @@
 const React                   = require('react');
 const ReactDOM                = require('react-dom');
 const ReactAutocomplete       = require('ron-react-autocomplete');
-const { shapes: { ExcelColumn } } = require('react-data-grid');
+const { shapes: { ExcelColumn } } = require('react-data-grid-sk');
 require('../../../../themes/ron-react-autocomplete.css');
 
 let optionPropType = React.PropTypes.shape({

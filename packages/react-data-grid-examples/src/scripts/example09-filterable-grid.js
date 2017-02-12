@@ -1,7 +1,7 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
-const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
+const { Toolbar, Data: { Selectors } } = require('react-data-grid-sk-addons');
 
 const Example = React.createClass({
   getInitialState() {

@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const faker = require('faker');
@@ -7,7 +7,7 @@ const {
   ToolsPanel: { AdvancedToolbar: Toolbar, GroupedColumnsPanel },
   Data: { Selectors },
   Draggable: { Container: DraggableContainer }
- } = require('react-data-grid-addons');
+ } = require('react-data-grid-sk-addons');
 
 faker.locale = 'en_GB';
 

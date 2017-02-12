@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const { Row } = ReactDataGrid;
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');

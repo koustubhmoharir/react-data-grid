@@ -1,5 +1,5 @@
 const React = require('react');
-const { editors: { EditorBase } } = require('react-data-grid');
+const { editors: { EditorBase } } = require('react-data-grid-sk');
 import ReactDOM from 'react-dom';
 
 class DropDownEditor extends EditorBase {

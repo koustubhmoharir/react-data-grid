@@ -1,4 +1,4 @@
-const { editors: { SimpleTextEditor, CheckboxEditor } } = require('react-data-grid');
+const { editors: { SimpleTextEditor, CheckboxEditor } } = require('react-data-grid-sk');
 
 const Editors = {
   AutoComplete: require('./AutoCompleteEditor'),

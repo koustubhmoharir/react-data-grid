@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const FakeObjectDataStore = require('./FakeObjectDataStore');
@@ -10,7 +10,7 @@ const {
   Menu:
     { ContextMenu, MenuItem },
   Formatters:
-    { ImageFormatter }} = require('react-data-grid-addons');
+    { ImageFormatter }} = require('react-data-grid-sk-addons');
 const faker = require('faker');
 
 const counties = [

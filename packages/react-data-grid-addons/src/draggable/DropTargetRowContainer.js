@@ -2,7 +2,7 @@ import '../../../../themes/react-data-grid-drop-target.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { DropTarget } from 'react-dnd';
-import { RowComparer as shouldRowUpdate } from 'react-data-grid';
+import { RowComparer as shouldRowUpdate } from 'react-data-grid-sk';
 
 let rowDropTarget = (Row) => class extends React.Component {
 

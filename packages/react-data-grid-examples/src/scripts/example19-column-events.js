@@ -1,7 +1,7 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
-const { Editors: { DropDownEditor } } = require('react-data-grid-addons');
+const { Editors: { DropDownEditor } } = require('react-data-grid-sk-addons');
 
 const titles = ['Dr.', 'Mr.', 'Mrs.', 'Miss', 'Ms.'];
 
