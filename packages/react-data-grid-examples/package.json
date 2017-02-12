@@ -1,6 +1,6 @@
 {
   "name": "react-data-grid-sk-examples",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of examples for the grid",
   "main": "main.js",
   "scripts": {
@@ -17,8 +17,8 @@
   "author": "koustubhmoharir",
   "license": "MIT",
   "dependencies": {
-    "react-data-grid-sk": "^0.1.0",
-    "react-data-grid-sk-addons": "^0.1.0"
+    "react-data-grid-sk": "^0.1.1",
+    "react-data-grid-sk-addons": "^0.1.1"
   },
   "devDependencies": {
     "bootstrap": "^3.2.0",
