@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { DragSource, DropTarget } from 'react-dnd';
-import { HeaderCell } from 'react-data-grid';
+import { HeaderCell } from 'react-data-grid-sk';
 
 class DraggableHeaderCell extends React.Component {
   render() {

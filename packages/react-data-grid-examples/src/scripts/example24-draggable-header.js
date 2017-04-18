@@ -1,9 +1,9 @@
 const React = require('react');
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const {
   DraggableHeader: { DraggableContainer }
-} = require('react-data-grid-addons');
+} = require('react-data-grid-sk-addons');
 
 const Example = React.createClass({
   getInitialState() {
