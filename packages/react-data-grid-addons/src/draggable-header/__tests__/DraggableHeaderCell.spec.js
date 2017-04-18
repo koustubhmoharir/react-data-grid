@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import DraggableContainer from '../DraggableContainer';
 import DraggableHeaderCell from '../DraggableHeaderCell';
-import { HeaderCell } from 'react-data-grid';
+import { HeaderCell } from 'react-data-grid-sk';
 
 describe('<DraggableHeaderCell />', () => {
   it('should render grid HeaderCell wrapper with cursor: move ', () => {
