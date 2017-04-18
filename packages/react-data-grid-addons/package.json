@@ -14,7 +14,7 @@
   ],
   "author": "koustubhmoharir",
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "react-data-grid-sk": "^1.0.3"
   },
   "devDependencies": {
