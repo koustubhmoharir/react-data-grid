@@ -1,7 +1,7 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
-const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
+const { Toolbar, Data: { Selectors } } = require('react-data-grid-sk-addons');
 
 const Example = React.createClass({
   getInitialState() {
@@ -44,7 +44,7 @@ const Example = React.createClass({
       }
     ];
 
-    return { rows: this.createRows(1000), filters: [] };
+    return { rows: this.createRows(), filters: {} };
   },
 
   getRandomDate(start, end) {
@@ -91,7 +91,7 @@ const Example = React.createClass({
     this.setState({ filters: newFilters });
   },
 
-  onClearFilters: function() {
+  onClearFilters() {
     // all filters removed
     this.setState({filters: {} });
   },

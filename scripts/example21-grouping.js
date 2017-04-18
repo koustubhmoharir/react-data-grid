@@ -1,5 +1,5 @@
 const faker = require('faker');
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const {
@@ -7,7 +7,7 @@ const {
   Data: { Selectors },
   Draggable: { Container: DraggableContainer },
   Formatters: { ImageFormatter }
-} = require('react-data-grid-addons');
+} = require('react-data-grid-sk-addons');
 
 faker.locale = 'en_GB';
 
@@ -183,7 +183,7 @@ const Example = React.createClass({
     return (
       <DraggableContainer>
           <ReactDataGrid
-            ref="grid"
+            ref={ node => this.grid = node }
             enableCellSelect={true}
             enableDragAndDrop={true}
             columns={columns}

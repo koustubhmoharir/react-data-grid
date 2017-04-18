@@ -1,8 +1,8 @@
 const faker = require('faker');
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
-const { Editors, Toolbar, Formatters } = require('react-data-grid-addons');
+const { Editors, Toolbar, Formatters } = require('react-data-grid-sk-addons');
 const { AutoComplete: AutoCompleteEditor, DropDownEditor } = Editors;
 const { ImageFormatter } = Formatters;
 
@@ -198,7 +198,7 @@ const Example = React.createClass({
       onClick: (ev, args) => {
         const idx = args.idx;
         const rowIdx = args.rowIdx;
-        this.refs.grid.openCellEditor(rowIdx, idx);
+        this.grid.openCellEditor(rowIdx, idx);
       }
     };
 
@@ -206,7 +206,7 @@ const Example = React.createClass({
   },
 
   handleGridRowsUpdated({ fromRow, toRow, updated }) {
-    let rows = this.state.rows;
+    let rows = this.state.rows.slice();
 
     for (let i = fromRow; i <= toRow; i++) {
       let rowToUpdate = rows[i];
@@ -225,7 +225,8 @@ const Example = React.createClass({
       epic: ''
     };
 
-    const rows = React.addons.update(this.state.rows, {$push: [newRow]});
+    let rows = this.state.rows.slice();
+    rows = React.addons.update(rows, {$push: [newRow]});
     this.setState({ rows });
   },
 
@@ -244,7 +245,7 @@ const Example = React.createClass({
   render() {
     return (
       <ReactDataGrid
-        ref="grid"
+        ref={ node => this.grid = node }
         enableCellSelect={true}
         columns={this.getColumns()}
         rowGetter={this.getRowAt}

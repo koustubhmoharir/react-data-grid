@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 
@@ -34,7 +34,7 @@ const Example = React.createClass({
   },
 
   onCellSelected({ rowIdx, idx }) {
-    this.refs.grid.openCellEditor(rowIdx, idx);
+    this.grid.openCellEditor(rowIdx, idx);
   },
 
   onCellDeSelected({ rowIdx, idx }) {
@@ -49,7 +49,7 @@ const Example = React.createClass({
       <div>
         <span>{this.state.selectedRows.length} {rowText} selected</span>
         <ReactDataGrid
-          ref="grid"
+          ref={ node => this.grid = node }
           rowKey="id"
           columns={this._columns}
           rowGetter={this.rowGetter}

@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 const faker = require('faker');
@@ -7,7 +7,7 @@ const {
   ToolsPanel: { AdvancedToolbar: Toolbar, GroupedColumnsPanel },
   Data: { Selectors },
   Draggable: { Container: DraggableContainer }
- } = require('react-data-grid-addons');
+ } = require('react-data-grid-sk-addons');
 
 faker.locale = 'en_GB';
 
@@ -15,7 +15,7 @@ let _rows = [];
 let _cols = [];
 
 for (let j = 0; j < 50; j++) {
-  _cols.push({key: 'col' + j, name: 'col' + j, width: 150, editable: true, draggable: true});
+  _cols.push({key: 'col' + j, name: 'col' + j, width: 150, draggable: true});
 }
 
 for (let rowIdx = 1; rowIdx < 100; rowIdx++) {
@@ -89,7 +89,7 @@ const Example = React.createClass({
     return (
       <DraggableContainer>
           <ReactDataGrid
-            ref="grid"
+            ref={ node => this.grid = node }
             enableCellSelect={true}
             enableDragAndDrop={true}
             columns={_cols}

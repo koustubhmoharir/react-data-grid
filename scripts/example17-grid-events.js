@@ -1,4 +1,4 @@
-const ReactDataGrid = require('react-data-grid');
+const ReactDataGrid = require('react-data-grid-sk');
 const exampleWrapper = require('../components/exampleWrapper');
 const React = require('react');
 
@@ -41,7 +41,7 @@ const Example = React.createClass({
   },
 
   onRowClick(rowIdx, row) {
-    let rows = this.state.rows;
+    let rows = this.state.rows.slice();
     rows[rowIdx] = Object.assign({}, row, {isSelected: !row.isSelected});
     this.setState({ rows });
   },
