@@ -31,7 +31,7 @@
 }
 
 .react-grid-checkbox:checked + .react-grid-checkbox-label:before {
-    background: rebeccapurple;
+    background: #005295;
     box-shadow: inset 0px 0px 0px 4px #fff;
 }
 
@@ -44,9 +44,16 @@
 }
 .react-grid-HeaderCell > .react-grid-checkbox-container {
    padding: 0px 10px;
+    height: 100%
 }
+
+
 .react-grid-HeaderCell > .react-grid-checkbox-container > .react-grid-checkbox-label {
    margin : 0;
+   margin-top: -0.3em;
+   position: relative;
+   top: 50%;
+   transform: translateY(-50%);
 }
 .radio-custom + .radio-custom-label:before {
     border-radius: 50%;
@@ -57,9 +64,6 @@
     box-shadow: inset 0px 0px 0px 4px #fff;
 }
 
-/* Remove padding that mis-aligns the checkbox
-label[for=select-all-checkbox]{
-    padding-left: 10px;
-    padding-top: 5px;
+.checkbox-align {
+    text-align: center;
 }
-*/

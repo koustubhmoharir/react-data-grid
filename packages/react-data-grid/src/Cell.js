@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import _ from 'underscore';
 const React = require('react');
 const ReactDOM = require('react-dom');
 const joinClasses = require('classnames');
@@ -25,7 +25,6 @@ const Cell = React.createClass({
     selectedColumn: React.PropTypes.object,
     height: React.PropTypes.number,
     tabIndex: React.PropTypes.number,
-    ref: React.PropTypes.string,
     column: React.PropTypes.shape(ExcelColumn).isRequired,
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number, React.PropTypes.object, React.PropTypes.bool]).isRequired,
     isExpanded: React.PropTypes.bool,
@@ -252,7 +251,7 @@ const Cell = React.createClass({
       let nextColumn = nextProps.column;
       let nextRowMetaData = nextColumn.getRowMetaData(this.getRowData(nextProps), nextColumn);
 
-      hasChangedDependentValues = !isEqual(currentRowMetaData, nextRowMetaData);
+      hasChangedDependentValues = !_.isEqual(currentRowMetaData, nextRowMetaData);
     }
 
     return hasChangedDependentValues;
