@@ -1,6 +1,6 @@
 {
   "name": "react-data-grid-sk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "The grid core",
   "scripts": {
     "beforepublish": "node ../../ci/publish/replacePackageEntry react-data-grid true",
