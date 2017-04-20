@@ -1,6 +1,6 @@
 // Type definitions for react-data-grid 1.0.4
 // Project: https://github.com/adazzle/react-data-grid.git
-// Definitions by: Simon Gellis <https://github.com/SupernaviX>
+// Definitions by: Simon Gellis <https://github.com/SupernaviX>, Kieran Peat <https://github.com/KieranPeat>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.1
 
@@ -191,6 +191,13 @@ declare namespace AdazzleReactDataGrid {
                 isSelectedKey?: string;
             }
         }
+        /**
+         * An event function called when a row is clicked.
+         * Clicking the header row will trigger a call with -1 for the rowIdx.
+         * @param rowIdx zero index number of row clicked
+         * @param row object behind the row
+         */
+        onRowClick?: (rowIdx : number, row : Object) => void
     }
 
     /**
@@ -235,7 +242,11 @@ declare namespace AdazzleReactDataGrid {
          * Whether the rows in the grid can be filtered by this column.
          * @default false
          */
-        filterable?: boolean
+        filterable?: boolean;
+        /**
+         * A custom formatter for this column's filter.
+         */
+        filterRenderer?: React.ReactElement<any> | React.ComponentClass<any> | React.StatelessComponent<any>;
         /**
          * The editor for this column. Several editors are available in "react-data-grid/addons".
          * @default A simple text editor
@@ -245,6 +256,10 @@ declare namespace AdazzleReactDataGrid {
          * A custom read-only formatter for this column. An image formatter is available in "react-data-grid/addons".
          */
         formatter?: React.ReactElement<any> | React.ComponentClass<any> | React.StatelessComponent<any>
+        /**
+         * Required when using CheckboxEditor as a formatter.
+         */
+        onCellChange?: (rowIdx: number, columnKey: string, dependentValues: any, event: { value: any }) => void;
         /**
          * A custom formatter for this column's header.
          */
@@ -258,6 +273,14 @@ declare namespace AdazzleReactDataGrid {
         events?: {
             [name: string]: ColumnEventCallback
         }
+        /**
+         * Retrieve meta data about the row, optionally provide column as a second argument
+         */
+        getRowMetaData?: (rowdata: any, column?: Column) => any;
+        /**
+         * A class name to be applied to the cells in the column
+         */
+        cellClass?: string;
     }
 
     interface ColumnEventCallback {
