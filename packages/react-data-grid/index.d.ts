@@ -432,6 +432,7 @@ declare namespace AdazzleReactDataGrid {
     export class ReactDataGrid extends React.Component<GridProps, {}> { }
     export namespace ReactDataGrid {
         // Useful types
+        export import Props = AdazzleReactDataGrid.GridProps;
         export import Column = AdazzleReactDataGrid.Column;
         export import Filter = AdazzleReactDataGrid.Filter;
 
