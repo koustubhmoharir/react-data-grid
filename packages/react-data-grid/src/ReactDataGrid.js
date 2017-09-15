@@ -10,6 +10,7 @@ const ColumnMetricsMixin      = require('./ColumnMetricsMixin');
 const RowUtils = require('./RowUtils');
 const ColumnUtils = require('./ColumnUtils');
 const KeyCodes = require('./KeyCodes');
+const isFunction = require('./utils/isFunction');
 const uniqueId = require('lodash.uniqueid');
 import AppConstants from './AppConstants';
 require('../../../themes/react-data-grid-core.css');
@@ -110,7 +111,9 @@ const ReactDataGrid = React.createClass({
     rowActionsCell: React.PropTypes.func,
     onCheckCellIsEditable: React.PropTypes.func,
     /* called before cell is set active, returns a boolean to determine whether cell is editable */
-    overScan: React.PropTypes.object
+    overScan: React.PropTypes.object,
+    onDeleteSubRow: React.PropTypes.func,
+    onAddSubRow: React.PropTypes.func
   },
 
   getDefaultProps(): {enableCellSelect: boolean} {
@@ -163,8 +166,9 @@ const ReactDataGrid = React.createClass({
 
       if (column && column.events && column.events[name] && typeof column.events[name] === 'function') {
         let eventArgs = {
-          rowIdx: columnEvent.rowIdx,
           idx,
+          rowIdx: columnEvent.rowIdx,
+          rowId: columnEvent.rowId,
           column
         };
 
@@ -200,7 +204,7 @@ const ReactDataGrid = React.createClass({
     this.onSelect({rowIdx: cell.rowIdx, idx: cell.idx});
 
     if (this.props.onRowClick && typeof this.props.onRowClick === 'function') {
-      this.props.onRowClick(cell.rowIdx, this.props.rowGetter(cell.rowIdx));
+      this.props.onRowClick(cell.rowIdx, this.props.rowGetter(cell.rowIdx), this.getColumn(cell.idx));
     }
   },
 
@@ -213,7 +217,7 @@ const ReactDataGrid = React.createClass({
 
   onCellDoubleClick: function(cell: SelectedType) {
     this.onSelect({rowIdx: cell.rowIdx, idx: cell.idx});
-    this.setActive('Enter');
+    this.setActive('DoubleClick');
   },
 
   onViewportDoubleClick: function() {
@@ -294,10 +298,10 @@ const ReactDataGrid = React.createClass({
       rowIds.push(this.props.rowGetter(i)[this.props.rowKey]);
     }
 
-    let fromRowId = this.props.rowGetter(action === 'COPY_PASTE' ? originRow : fromRow)[this.props.rowKey];
+    let fromRowData = this.props.rowGetter(action === 'COPY_PASTE' ? originRow : fromRow);
+    let fromRowId = fromRowData[this.props.rowKey];
     let toRowId = this.props.rowGetter(toRow)[this.props.rowKey];
-
-    this.props.onGridRowsUpdated({cellKey, fromRow, toRow, fromRowId, toRowId, rowIds, updated, action});
+    this.props.onGridRowsUpdated({cellKey, fromRow, toRow, fromRowId, toRowId, rowIds, updated, action, fromRowData});
   },
 
   onCellCommit(commit: RowUpdateEvent) {
@@ -515,7 +519,7 @@ const ReactDataGrid = React.createClass({
   },
 
   handleNewRowSelect(rowIdx, rowData) {
-    if (this.selectAllCheckbox.checked === true) {
+    if (this.selectAllCheckbox && this.selectAllCheckbox.checked === true) {
       this.selectAllCheckbox.checked = false;
     }
 
@@ -677,6 +681,7 @@ const ReactDataGrid = React.createClass({
       rowIdx = this.state.selected.rowIdx + rowDelta;
       idx = this.state.selected.idx + cellDelta;
     }
+    this.scrollToColumn(idx);
     this.onSelect({ idx: idx, rowIdx: rowIdx });
   },
 
@@ -801,7 +806,11 @@ const ReactDataGrid = React.createClass({
         showEditor = this.props.onCheckCellIsEditable(args);
       }
       if (showEditor !== false) {
-        this.setState({selected: selected}, this.scrollToColumn(idx));
+        if (column.locked) {
+          this.setState({selected});
+        } else {
+          this.setState({selected}, () => { this.scrollToColumn(idx); });
+        }
         this.handleCancelCopy();
       }
     }
@@ -873,13 +882,17 @@ const ReactDataGrid = React.createClass({
 
   renderToolbar(): ReactElement {
     let Toolbar = this.props.toolbar;
+    let toolBarProps =  {columns: this.props.columns, onToggleFilter: this.onToggleFilter, numberOfRows: this.props.rowsCount};
     if (React.isValidElement(Toolbar)) {
-      return ( React.cloneElement(Toolbar, {columns: this.props.columns, onToggleFilter: this.onToggleFilter, numberOfRows: this.props.rowsCount}));
+      return ( React.cloneElement(Toolbar, toolBarProps));
+    } else if (isFunction(Toolbar)) {
+      return <Toolbar {...toolBarProps}/>;
     }
   },
 
   render() {
     let cellMetaData = {
+      rowKey: this.props.rowKey,
       selected: this.state.selected,
       dragged: this.state.dragged,
       hoveredRowIdx: this.state.hoveredRowIdx,
@@ -899,6 +912,8 @@ const ReactDataGrid = React.createClass({
       onRowExpandToggle: this.onRowExpandToggle,
       onRowHover: this.onRowHover,
       getDataGridDOMNode: this.getDataGridDOMNode,
+      onDeleteSubRow: this.props.onDeleteSubRow,
+      onAddSubRow: this.props.onAddSubRow,
       isScrollingVerticallyWithKeyboard: this.isKeyDown(KeyCodes.DownArrow) || this.isKeyDown(KeyCodes.UpArrow),
       isScrollingHorizontallyWithKeyboard: this.isKeyDown(KeyCodes.LeftArrow) || this.isKeyDown(KeyCodes.RightArrow) || this.isKeyDown(KeyCodes.Tab)
     };

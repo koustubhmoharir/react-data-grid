@@ -11,7 +11,7 @@ require('../../../themes/react-data-grid-row.css');
 
 const CellExpander = React.createClass({
   render() {
-    return (<Cell {...this.props}/>);
+    return (<Cell {...this.props} />);
   }
 });
 
@@ -85,12 +85,12 @@ const Row = React.createClass({
     const baseCellProps = { key: `${key}-${idx}`, idx: i, rowIdx: idx, height: this.getRowHeight(), column, cellMetaData };
 
     if ((i < colVisibleStart || i > colVisibleEnd) && !locked) {
-      return <OverflowCell ref={(node) => this.key = node} {...baseCellProps} />;
+      return <OverflowCell ref={(node) => this[key] = node} {...baseCellProps} />;
     }
 
     const { row, isSelected } = this.props;
     const cellProps = {
-      ref: (node) => this.key = node,
+      ref: (node) => this[key] = node,
       value: this.getCellValue(key || i),
       rowData: row,
       isRowSelected: isSelected,
@@ -107,8 +107,12 @@ const Row = React.createClass({
     let cells = [];
     let lockedCells = [];
     let selectedColumn = this.getSelectedColumn();
+    let lastColumnIdx = this.props.columns.size - 1;
     if (this.props.columns) {
       this.props.columns.forEach((column, i) => {
+        if (i === lastColumnIdx) {
+          column.isLastColumn = true;
+        }
         let cell = this.getCell(column, i, selectedColumn);
         if (column.locked) {
           lockedCells.push(cell);
@@ -155,7 +159,11 @@ const Row = React.createClass({
   },
 
   getExpandableOptions(columnKey) {
-    return { canExpand: this.props.subRowDetails && this.props.subRowDetails.field === columnKey, expanded: this.props.subRowDetails && this.props.subRowDetails.expanded, children: this.props.subRowDetails && this.props.subRowDetails.children, treeDepth: this.props.subRowDetails ? this.props.subRowDetails.treeDepth : 0 };
+    let subRowDetails = this.props.subRowDetails;
+    if (subRowDetails) {
+      return { canExpand: subRowDetails && subRowDetails.field === columnKey && ((subRowDetails.children && subRowDetails.children.length > 0) || subRowDetails.group === true), field: subRowDetails.field, expanded: subRowDetails && subRowDetails.expanded, children: subRowDetails && subRowDetails.children, treeDepth: subRowDetails ? subRowDetails.treeDepth : 0, subRowDetails: subRowDetails };
+    }
+    return {};
   },
 
   setScrollLeft(scrollLeft) {
@@ -201,7 +209,7 @@ const Row = React.createClass({
 
     let cells = this.getCells();
     return (
-      <div {...this.getKnownDivProps()} className = { className } style= { style } onDragEnter= { this.handleDragEnter } >
+      <div {...this.getKnownDivProps() } className={className} style={style} onDragEnter={this.handleDragEnter} >
         {
           React.isValidElement(this.props.row) ?
             this.props.row : cells

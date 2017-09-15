@@ -46,6 +46,10 @@ const HeaderRow = React.createClass({
 
   mixins: [ColumnUtilsMixin],
 
+  componentWillMount() {
+    this.cells = [];
+  },
+
   shouldComponentUpdate(nextProps: {width: ?(number | string); height: number; columns: Array<ExcelColumn>; style: ?HeaderRowStyle; onColumnResize: ?any}): boolean {
     return (
       nextProps.width !== this.props.width
@@ -57,14 +61,12 @@ const HeaderRow = React.createClass({
     );
   },
 
-  cells: [],
-
   getHeaderCellType(column) {
     if (column.filterable) {
       if (this.props.filterable) return HeaderCellType.FILTERABLE;
     }
 
-    if (column.sortable) return HeaderCellType.SORTABLE;
+    if (column.sortable && column.rowType !== 'filter') return HeaderCellType.SORTABLE;
 
     return HeaderCellType.NONE;
   },
@@ -148,6 +150,10 @@ const HeaderRow = React.createClass({
     this.props.columns.forEach( (column, i) => {
       if (column.locked) {
         this.cells[i].setScrollLeft(scrollLeft);
+      } else {
+        if (this.cells[i] && this.cells[i].removeScroll) {
+          this.cells[i].removeScroll();
+        }
       }
     });
   },

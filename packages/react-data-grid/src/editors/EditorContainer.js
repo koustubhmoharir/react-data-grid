@@ -26,6 +26,7 @@ const EditorContainer = React.createClass({
   },
 
   changeCommitted: false,
+  changeCanceled: false,
 
   getInitialState() {
     return {isInvalid: false};
@@ -43,7 +44,7 @@ const EditorContainer = React.createClass({
   },
 
   componentWillUnmount: function() {
-    if (!this.changeCommitted && !this.hasEscapeBeenPressed()) {
+    if (!this.changeCommitted && !this.changeCanceled) {
       this.commit({key: 'Enter'});
     }
   },
@@ -55,6 +56,7 @@ const EditorContainer = React.createClass({
       column: this.props.column,
       value: this.getInitialValue(),
       onCommit: this.commit,
+      onCommitCancel: this.commitCancel,
       rowMetaData: this.getRowMetaData(),
       rowData: this.props.rowData,
       height: this.props.height,
@@ -84,7 +86,7 @@ const EditorContainer = React.createClass({
 
   onPressEscape(e: SyntheticKeyboardEvent) {
     if (!this.editorIsSelectOpen()) {
-      this.props.cellMetaData.onCommitCancel();
+      this.commitCancel();
     } else {
       // prevent event from bubbling if editor has results to select
       e.stopPropagation();
@@ -187,6 +189,12 @@ const EditorContainer = React.createClass({
       this.props.cellMetaData.onCommit({cellKey: cellKey, rowIdx: this.props.rowIdx, updated: updated, key: opts.key});
     }
   },
+
+  commitCancel() {
+    this.changeCanceled = true;
+    this.props.cellMetaData.onCommitCancel();
+  },
+
   isNewValueValid(value: string): boolean {
     if (isFunction(this.getEditor().validate)) {
       let isValid = this.getEditor().validate(value);
@@ -274,19 +282,6 @@ const EditorContainer = React.createClass({
         inputNode.select();
       }
     }
-  },
-
-  hasEscapeBeenPressed() {
-    let pressed = false;
-    let escapeKey = 27;
-    if (window.event) {
-      if (window.event.keyCode === escapeKey) {
-        pressed = true;
-      } else if (window.event.which === escapeKey) {
-        pressed  = true;
-      }
-    }
-    return pressed;
   },
 
   renderStatusIcon(): ?ReactElement {
