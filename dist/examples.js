@@ -8708,7 +8708,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.checkFocus();
+	    // this.checkFocus();
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    this.setState({
