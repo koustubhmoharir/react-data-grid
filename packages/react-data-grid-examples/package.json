@@ -17,6 +17,7 @@
   "author": "koustubhmoharir",
   "license": "MIT",
   "dependencies": {
+    "immutability-helper": "^2.4.0",
     "react-data-grid-sk": "^1.0.8",
     "react-data-grid-sk-addons": "^1.0.8"
   },
