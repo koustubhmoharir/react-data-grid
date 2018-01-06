@@ -42,9 +42,9 @@ test_script:
   - node --version
   - npm --version
   # run tests
-  - npm test
-  - ps: ./test/uploadResults.ps1
-  - gulp coveralls
+#  - npm test
+#  - ps: ./test/uploadResults.ps1
+#  - gulp coveralls
 
 
 # Don't run MS build step
