@@ -37,6 +37,13 @@ declare namespace AdazzleReactDataGridPlugins {
             configure?: (props: any) => any
         ): (Component: any) => any
     }
+
+    export namespace Data {
+        export const Selectors: {
+            getRows: (state: {rows: any[], filters:{ [key: string]: any }}) => any[],
+            getSelectedRowsByKey: any
+        }
+    }
 }
 
 declare module "react-data-grid-sk-addons" {
@@ -45,13 +52,15 @@ declare module "react-data-grid-sk-addons" {
     import Formatters = Plugins.Formatters;
     import Toolbar = Plugins.Toolbar;
     import Menu = Plugins.Menu;
+    import Data = Plugins.Data;
 
     // ES6 named exports
     export {
         Editors,
         Formatters,
         Toolbar,
-        Menu
+        Menu,
+        Data
     }
 
     // attach to window

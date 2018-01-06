@@ -161,6 +161,12 @@ declare namespace AdazzleReactDataGrid {
          * @default false
          */
         enableCellSelect?: boolean
+
+        /**
+         * Enables the cell to take focus when the browser is focused on the body
+         * @default true
+         */
+        enableCellAutoFocus?: boolean
         /**
          * Called when a cell is selected.
          * @param coordinates The row and column indices of the selected cell.
@@ -418,7 +424,7 @@ declare namespace AdazzleReactDataGrid {
         /**
          * The key of the column being filtered.
          */
-        columnKey: string
+        column: Column
         /**
          * The term to filter by.
          */
