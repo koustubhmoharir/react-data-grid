@@ -12,7 +12,7 @@ environment:
   access_token:
     secure: 46bvaPhkipaVLZ+06LJYEc7F9wMFsCZXK26OJ8b0DK/Jcs0ar7+wwO0XAroOopoB
   npmrc_token:
-    secure: ROCatPR0vmsEEjZ0LzLuPQ==
+    secure: /Wv4Xr0/fTRHXTW9nO09tA==
 
 
 # Install scripts. (runs after repo cloning)
@@ -53,7 +53,7 @@ build: off
 on_success:
 # If it is not a scheduled build/pr build and the current branch is master publish a new package.
 # If it is not build on master publish npm tag.
-  - npm run beforepublish
+  - npm run beforepublish   
   - ps: >-
       if(!$env:APPVEYOR_SCHEDULED_BUILD -and !$env:appveyor_pull_request_number -and $env:APPVEYOR_REPO_BRANCH -eq 'master') {
         ./ci/publish/publishMaster.ps1
