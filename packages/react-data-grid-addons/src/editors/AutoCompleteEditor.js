@@ -14,6 +14,7 @@ class AutoCompleteEditor extends React.Component {
   static propTypes = {
     onCommit: PropTypes.func,
     options: PropTypes.arrayOf(optionPropType),
+    title: PropTypes.any,
     label: PropTypes.any,
     value: PropTypes.any,
     height: PropTypes.number,
@@ -38,7 +39,7 @@ class AutoCompleteEditor extends React.Component {
     let value;
     let updated = {};
     if (this.hasResults() && this.isFocusedOnSuggestion()) {
-      value = this.getLabel(this.autoComplete.state.focusedValue);
+      value = this.getValueFromItem(this.autoComplete.state.focusedValue);
       if (this.props.valueParams) {
         value = this.constuctValueFromParams(this.autoComplete.state.focusedValue, this.props.valueParams);
       }
@@ -65,12 +66,13 @@ class AutoCompleteEditor extends React.Component {
     return ReactDOM.findDOMNode(this).getElementsByTagName('input')[0];
   };
 
-  getLabel = (item: any): string => {
+  getValueFromItem = (item: any): string => {
     let label = this.props.label != null ? this.props.label : 'title';
-    if (typeof label === 'function') {
-      return label(item);
-    } else if (typeof label === 'string') {
-      return item[label];
+    let title = this.props.title != null ? this.props.title : label;
+    if (typeof title === 'function') {
+      return title(item);
+    } else if (typeof title === 'string') {
+      return item[title];
     }
   };
 
