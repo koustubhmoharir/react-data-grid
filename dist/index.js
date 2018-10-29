@@ -19735,6 +19735,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.props.rowSelection.onRowsSelected([{ rowIdx: rowIdx, row: rowData }]);
 	    }
 	  },
+	  updateSelectAllCheckboxState: function updateSelectAllCheckboxState() {
+	    if (this.selectAllCheckbox) {
+	      var allRowsSelected = true;
+	      var noRowsSelected = true;
+	      var _props$rowSelection$s3 = this.props.rowSelection.selectBy,
+	          keys = _props$rowSelection$s3.keys,
+	          indexes = _props$rowSelection$s3.indexes,
+	          isSelectedKey = _props$rowSelection$s3.isSelectedKey;
+
+	      for (var i = 0; i < this.props.rowsCount; i++) {
+	        if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
+	          noRowsSelected = false;
+	        } else {
+	          allRowsSelected = false;
+	        }
+	      }
+	      if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
+	        this.ignoreSelectAllCheckbox = true;
+	        this.selectAllCheckbox.checked = true;
+	        this.ignoreSelectAllCheckbox = false;
+	      } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
+	        this.ignoreSelectAllCheckbox = true;
+	        this.selectAllCheckbox.checked = false;
+	        this.ignoreSelectAllCheckbox = false;
+	      }
+	    }
+	  },
 
 
 	  // columnKey not used here as this function will select the whole row,
@@ -19750,31 +19777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        this.handleNewRowSelect(rowIdx, rowData);
 	      }
-	      if (this.selectAllCheckbox) {
-	        var allRowsSelected = true;
-	        var noRowsSelected = true;
-	        var _props$rowSelection$s3 = this.props.rowSelection.selectBy,
-	            keys = _props$rowSelection$s3.keys,
-	            indexes = _props$rowSelection$s3.indexes,
-	            isSelectedKey = _props$rowSelection$s3.isSelectedKey;
-
-	        for (var i = 0; i < this.props.rowsCount; i++) {
-	          if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
-	            noRowsSelected = false;
-	          } else {
-	            allRowsSelected = false;
-	          }
-	        }
-	        if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
-	          this.ignoreSelectAllCheckbox = true;
-	          this.selectAllCheckbox.checked = true;
-	          this.ignoreSelectAllCheckbox = false;
-	        } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
-	          this.ignoreSelectAllCheckbox = true;
-	          this.selectAllCheckbox.checked = false;
-	          this.ignoreSelectAllCheckbox = false;
-	        }
-	      }
+	      this.updateSelectAllCheckboxState();
 	    } else {
 	      // Fallback to old onRowSelect handler
 	      var _selectedRows = this.props.enableRowSelect === 'single' ? [] : this.state.selectedRows.slice(0);
@@ -20240,6 +20243,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          overScan: this.props.overScan }))
 	      )
 	    );
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.updateSelectAllCheckboxState();
 	  }
 	});
 
