@@ -20038,6 +20038,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        this.handleNewRowSelect(rowIdx, rowData);
 	      }
+	      if (this.selectAllCheckbox) {
+	        var allRowsSelected = true;
+	        var noRowsSelected = true;
+	        var _props$rowSelection$s3 = this.props.rowSelection.selectBy,
+	            keys = _props$rowSelection$s3.keys,
+	            indexes = _props$rowSelection$s3.indexes,
+	            isSelectedKey = _props$rowSelection$s3.isSelectedKey;
+
+	        for (var i = 0; i < this.props.rowsCount; i++) {
+	          if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
+	            noRowsSelected = false;
+	          } else {
+	            allRowsSelected = false;
+	          }
+	        }
+	        if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
+	          this.ignoreSelectAllCheckbox = true;
+	          this.selectAllCheckbox.checked = true;
+	          this.ignoreSelectAllCheckbox = false;
+	        } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
+	          this.ignoreSelectAllCheckbox = true;
+	          this.selectAllCheckbox.checked = false;
+	          this.ignoreSelectAllCheckbox = false;
+	        }
+	      }
 	    } else {
 	      // Fallback to old onRowSelect handler
 	      var _selectedRows = this.props.enableRowSelect === 'single' ? [] : this.state.selectedRows.slice(0);
@@ -20058,7 +20083,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 
+	  ignoreSelectAllCheckbox: false,
+
 	  handleCheckboxChange: function handleCheckboxChange(e) {
+	    if (this.ignoreSelectAllCheckbox) return;
 	    var allRowsSelected = void 0;
 	    if (e.currentTarget instanceof HTMLInputElement && e.currentTarget.checked === true) {
 	      allRowsSelected = true;
@@ -20066,10 +20094,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      allRowsSelected = false;
 	    }
 	    if (this.useNewRowSelection()) {
-	      var _props$rowSelection$s3 = this.props.rowSelection.selectBy,
-	          keys = _props$rowSelection$s3.keys,
-	          indexes = _props$rowSelection$s3.indexes,
-	          isSelectedKey = _props$rowSelection$s3.isSelectedKey;
+	      var _props$rowSelection$s4 = this.props.rowSelection.selectBy,
+	          keys = _props$rowSelection$s4.keys,
+	          indexes = _props$rowSelection$s4.indexes,
+	          isSelectedKey = _props$rowSelection$s4.isSelectedKey;
 
 
 	      if (allRowsSelected && typeof this.props.rowSelection.onRowsSelected === 'function') {
