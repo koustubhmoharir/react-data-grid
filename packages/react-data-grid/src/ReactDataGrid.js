@@ -547,6 +547,30 @@ const ReactDataGrid = createReactClass({
     }
   },
 
+  updateSelectAllCheckboxState() {
+    if (this.selectAllCheckbox) {
+      let allRowsSelected = true;
+      let noRowsSelected = true;
+      let { keys, indexes, isSelectedKey } = this.props.rowSelection.selectBy;
+      for (let i = 0; i < this.props.rowsCount; i++) {
+        if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
+          noRowsSelected = false;
+        } else {
+          allRowsSelected = false;
+        }
+      }
+      if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
+        this.ignoreSelectAllCheckbox = true;
+        this.selectAllCheckbox.checked = true;
+        this.ignoreSelectAllCheckbox = false;
+      } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
+        this.ignoreSelectAllCheckbox = true;
+        this.selectAllCheckbox.checked = false;
+        this.ignoreSelectAllCheckbox = false;
+      }
+    }
+  },
+
   // columnKey not used here as this function will select the whole row,
   // but needed to match the function signature in the CheckboxEditor
   handleRowSelect(rowIdx: number, columnKey: string, rowData, e: Event) {
@@ -560,27 +584,7 @@ const ReactDataGrid = createReactClass({
       } else {
         this.handleNewRowSelect(rowIdx, rowData);
       }
-      if (this.selectAllCheckbox) {
-        let allRowsSelected = true;
-        let noRowsSelected = true;
-        let { keys, indexes, isSelectedKey } = this.props.rowSelection.selectBy;
-        for (let i = 0; i < this.props.rowsCount; i++) {
-          if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
-            noRowsSelected = false;
-          } else {
-            allRowsSelected = false;
-          }
-        }
-        if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
-          this.ignoreSelectAllCheckbox = true;
-          this.selectAllCheckbox.checked = true;
-          this.ignoreSelectAllCheckbox = false;
-        } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
-          this.ignoreSelectAllCheckbox = true;
-          this.selectAllCheckbox.checked = false;
-          this.ignoreSelectAllCheckbox = false;
-        }
-      }
+      this.updateSelectAllCheckboxState();
     } else { // Fallback to old onRowSelect handler
       let selectedRows = this.props.enableRowSelect === 'single' ? [] : this.state.selectedRows.slice(0);
       let selectedRow = this.getSelectedRow(selectedRows, rowData[this.props.rowKey]);
@@ -1015,6 +1019,10 @@ const ReactDataGrid = createReactClass({
           </div>
         </div>
       );
+  },
+
+  componentDidMount() {
+    this.updateSelectAllCheckboxState();
   }
 });
 
