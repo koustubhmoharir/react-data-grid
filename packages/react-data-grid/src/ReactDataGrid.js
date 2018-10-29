@@ -560,6 +560,27 @@ const ReactDataGrid = createReactClass({
       } else {
         this.handleNewRowSelect(rowIdx, rowData);
       }
+      if (this.selectAllCheckbox) {
+        let allRowsSelected = true;
+        let noRowsSelected = true;
+        let { keys, indexes, isSelectedKey } = this.props.rowSelection.selectBy;
+        for (let i = 0; i < this.props.rowsCount; i++) {
+          if (RowUtils.isRowSelected(keys, indexes, isSelectedKey, this.props.rowGetter(i), i)) {
+            noRowsSelected = false;
+          } else {
+            allRowsSelected = false;
+          }
+        }
+        if (allRowsSelected && !noRowsSelected && !this.selectAllCheckbox.checked) {
+          this.ignoreSelectAllCheckbox = true;
+          this.selectAllCheckbox.checked = true;
+          this.ignoreSelectAllCheckbox = false;
+        } else if (!allRowsSelected && noRowsSelected && this.selectAllCheckbox.checked) {
+          this.ignoreSelectAllCheckbox = true;
+          this.selectAllCheckbox.checked = false;
+          this.ignoreSelectAllCheckbox = false;
+        }
+      }
     } else { // Fallback to old onRowSelect handler
       let selectedRows = this.props.enableRowSelect === 'single' ? [] : this.state.selectedRows.slice(0);
       let selectedRow = this.getSelectedRow(selectedRows, rowData[this.props.rowKey]);
@@ -576,7 +597,10 @@ const ReactDataGrid = createReactClass({
     }
   },
 
+  ignoreSelectAllCheckbox: false,
+
   handleCheckboxChange: function(e: SyntheticEvent) {
+    if (this.ignoreSelectAllCheckbox) return;
     let allRowsSelected;
     if (e.currentTarget instanceof HTMLInputElement && e.currentTarget.checked === true) {
       allRowsSelected = true;
