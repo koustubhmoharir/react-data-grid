@@ -314,7 +314,10 @@ const ReactDataGrid = createReactClass({
     let toRowId = this.props.rowGetter(toRow)[this.props.rowKey];
     this.props.onGridRowsUpdated({cellKey, fromRow, toRow, fromRowId, toRowId, rowIds, updated, action, fromRowData});
   },
-
+  isSelectingCell: false,
+  clearIsSelectingCell() {
+    this.isSelectingCell = false;
+  },
   onCellCommit(commit: RowUpdateEvent) {
     let selected = Object.assign({}, this.state.selected);
     selected.active = false;
@@ -325,7 +328,8 @@ const ReactDataGrid = createReactClass({
     // if(commit.changed && commit.changed.expandedHeight){
     //   expandedRows = this.expandRow(commit.rowIdx, commit.changed.expandedHeight);
     // }
-    this.setState({selected: selected, expandedRows: expandedRows});
+    this.isSelectingCell = true;
+    this.setState({ selected: selected, expandedRows: expandedRows }, this.clearIsSelectingCell);
 
     if (this.props.onRowUpdated) {
       this.props.onRowUpdated(commit);
@@ -875,8 +879,9 @@ const ReactDataGrid = createReactClass({
     let col = this.getColumn(idx);
 
     if (ColumnUtils.canEdit(col, row, this.props.enableCellSelect) && this.isActive()) {
-      let selected = Object.assign({}, this.state.selected, {idx: idx, rowIdx: rowIdx, active: false});
-      this.setState({selected: selected});
+      let selected = Object.assign({}, this.state.selected, { idx: idx, rowIdx: rowIdx, active: false });
+      this.isSelectingCell = true;
+      this.setState({ selected: selected }, this.clearIsSelectingCell);
     }
   },
 
@@ -967,7 +972,7 @@ const ReactDataGrid = createReactClass({
       onAddSubRow: this.props.onAddSubRow,
       isScrollingVerticallyWithKeyboard: this.isKeyDown(KeyCodes.DownArrow) || this.isKeyDown(KeyCodes.UpArrow),
       isScrollingHorizontallyWithKeyboard: this.isKeyDown(KeyCodes.LeftArrow) || this.isKeyDown(KeyCodes.RightArrow) || this.isKeyDown(KeyCodes.Tab),
-      enableCellAutoFocus: this.props.enableCellAutoFocus
+      enableCellAutoFocus: this.props.enableCellAutoFocus || this.isSelectingCell,
     };
 
     let toolbar = this.renderToolbar();
