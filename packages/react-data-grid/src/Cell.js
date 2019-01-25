@@ -390,7 +390,7 @@ class Cell extends React.Component {
       // Meaning focus should not be stolen from elements that the grid doesnt control.
       const cellAutoFocusEnabled = this.props.cellMetaData && this.props.cellMetaData.enableCellAutoFocus;
       let dataGridDOMNode = this.props.cellMetaData && this.props.cellMetaData.getDataGridDOMNode ? this.props.cellMetaData.getDataGridDOMNode() : null;
-      if (this.isFocusedOnCell() || (cellAutoFocusEnabled && this.isFocusedOnBody()) || (dataGridDOMNode && dataGridDOMNode.contains(document.activeElement))) {
+      if ((this.isFocusedOnCell() && dataGridDOMNode && dataGridDOMNode.contains(document.activeElement)) || (cellAutoFocusEnabled && this.isFocusedOnBody())) {
         let cellDOMNode = this.node;
         if (cellDOMNode) {
           cellDOMNode.focus();
